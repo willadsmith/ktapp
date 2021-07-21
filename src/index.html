@@ -11,4 +11,45 @@
 <body>
     <app>Загрузка...</app>
 </body>
+<script src="assets/scripts/ncalayer.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        const EventBus = {
+          channels: {},
+          subscribe (channelName, listener) {
+            if (!this.channels[channelName]) {
+              this.channels[channelName] = []
+            }
+            this.channels[channelName].push(listener)
+          },
+    
+          publish (channelName, data) {
+            const channel = this.channels[channelName];
+            if (!channel || !channel.length) {
+              return
+            }
+    
+            channel.forEach(listener => listener(data))
+          },
+    
+          unsubscribe (channelName) {
+            this.channels[channelName] = [];
+          }
+        };
+    
+        function getActiveTokensCall() {
+          getActiveTokens("getActiveTokensBack");
+        }
+    
+        function getActiveTokensBack(result) {
+          return EventBus.publish('token', result);
+        }
+    
+        function changeLocaleCall(value) {
+          changeLocale(value);
+        }
+    
+        function signXmlBack(result) {
+          return EventBus.publish('signed', result);
+        }
+      </script>
 </html>

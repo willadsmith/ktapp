@@ -27,11 +27,11 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [c
+            "styles": [
               "src/assets/style/global.scss"
             ],
             "scripts": [
-              "src/assets/scripts/ncalayesr.js"
+              "src/assets/scripts/ncalayer.js"
             ]
           },
           "configurations": {
