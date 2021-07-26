@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Docs } from '../_models/docs';
+import { BackendService } from '@app/_services/backend-service';
 import { ToasterConfig, ToasterService } from 'angular2-toaster';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '@environments/environment';
+import { AuthenticationService } from '../_services/authentication.service';
 // import { UserProfileService } from '../core/services/user-profile.service';
 // import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // import { AuthService } from '../core/services/auth.service';
@@ -26,9 +31,8 @@ export class LayoutComponent implements OnInit {
 
   constructor(private router: Router,
               private toasterService: ToasterService,
-              // private userProfileService: UserProfileService,
-              // private authService: AuthService,
-              // private modalService: BsModalService
+              private backendService: BackendService,
+              private authenticationService: AuthenticationService
               ) {
     router.events.subscribe((url: any) => this.currentUrl = router.url);
     // if (authService.getToken() !== undefined) {
@@ -44,34 +48,28 @@ export class LayoutComponent implements OnInit {
       isCloseable: false,
       requestParams: {
         action: 'CHANGE_LOGIN'
-      },
-      header: 'Актуализация по номеру телефона',
-      confirmText: [`Уважаемый клиент!`, `Для дальнейшей работы в системе «BCC.KZ» Вам необходимо
-    ввести код подтверждения, который будет отправлен на Ваш сотовый телефон после нажатия на кнопку «Отправить код
-    подтверждения». В случае, если указанный номер телефона неверный, просим ввести корректный номер, при этом, Ваш
-    логин будет изменен на указанный номер телефона. Данная процедура проводится в целях актуализации Ваших данных в
-    Банке.`],
+      }
     };
-
-    // this.modalRef = this.modalService.show(SendValidationModalComponent, {
-    //   initialState,
-    //   class: 'modal-phone-actualization2',
-    //   ignoreBackdropClick: true,
-    //   keyboard: false
-    // });
-    // this.modalRef.content.emitService.subscribe((response) => {
-    //   if (response.success) {
-    //     this.authService.isNeedActualization = false;
-    //   }
-    //   this.modalRef.hide();
-    // });
   }
 
   toggleMenuState(e?) {
     this.isMenuOpened = !this.isMenuOpened;
   }
 
+  getItems() {
+    this.authenticationService.doc().pipe()
+  }
+
   ngOnInit() {
+    
+    // const headers = {
+    //   'Authorization': `Bearer ${localStorage.getItem('token')}`
+    // }
+    // this.http.get<any>(environment.apiUrl + '/documents', { headers }).subscribe(data => {
+    //     console.log(data)
+    // })
+
+    // this.getItems()
     // if (this.authService.isNeedActualization) {
     //   this.showPhoneActualizationModal();
     // }

@@ -30,10 +30,10 @@ export class NotifyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.notifyService.getNotifyList().subscribe(notifyList => {
-      this.notifyList = notifyList;
-      this.notifyCount = (<any>this.notifyList).length;
-    });
+    // this.notifyService.getNotifyList().subscribe(notifyList => {
+    //   this.notifyList = notifyList;
+    //   this.notifyCount = (<any>this.notifyList).length;
+    // });
 
     // this.subscription = this.communicateService.on('notify-mark-as-read').subscribe((msgId) => {
     //   this.notifyList = (<[NotifyModel]>this.notifyList).filter(value => value.id !== Number(msgId));

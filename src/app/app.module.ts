@@ -14,6 +14,7 @@ import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { LayoutModule } from './layout/layout.module';;
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import { BackendService } from './_services/backend-service';
 
 @NgModule({
     imports: [
@@ -21,9 +22,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
         LayoutModule,
         ReactiveFormsModule,
         HttpClientModule,
-        AppRoutingModule
-,
-        NgbModule    ],
+        AppRoutingModule,
+        NgbModule
+    ],
     declarations: [
         AppComponent,
         HomeComponent,
@@ -34,7 +35,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
         // provider used to create fake backend
-        // fakeBackendProvider
+        BackendService
     ],
     bootstrap: [AppComponent]
 })

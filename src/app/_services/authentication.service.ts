@@ -1,5 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -27,6 +27,7 @@ export class AuthenticationService {
                 console.log(user)
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('currentUser', JSON.stringify(user));
+                localStorage.setItem('token', JSON.stringify(user['token']['accessToken']));
                 this.currentUserSubject.next(user);
                 return user;
             }));
@@ -35,6 +36,25 @@ export class AuthenticationService {
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('token');
         this.currentUserSubject.next(null);
+    }
+
+    doc() {
+        console.log('this')
+        let header = new HttpHeaders().append(
+            "Authorization",
+            "Bearer " + localStorage.getItem('token')
+        ) 
+        // console.log(environment.apiUrl)
+        return this.http.get(`${environment.apiUrl}/documents`, { headers: header })
+            // .pipe(map(item => {
+            //     console.log(item)
+            //     // store user details and jwt token in local storage to keep user logged in between page refreshes
+            //     // localStorage.setItem('currentUser', JSON.stringify(user));
+            //     // localStorage.setItem('token', JSON.stringify(user['token']['accessToken']));
+            //     // this.currentUserSubject.next(user);
+            //     return item;
+            // }));
     }
 }
