@@ -12,14 +12,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
+import { LayoutModule } from './layout/layout.module';;
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 
 @NgModule({
     imports: [
         BrowserModule,
+        LayoutModule,
         ReactiveFormsModule,
         HttpClientModule,
         AppRoutingModule
-    ],
+,
+        NgbModule    ],
     declarations: [
         AppComponent,
         HomeComponent,

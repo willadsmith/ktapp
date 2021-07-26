@@ -1,0 +1,275 @@
+@import "../../../imports.scss";
+
+.footer {
+  border-top: 1px solid #d8d8d8;
+  padding: 24px;
+  margin: 40px -43px 0 -43px;
+
+  @media screen and (max-width: 991px) {
+    padding: 16px;
+    margin: 40px -15px 0 -17px;
+  }
+
+  &__phones {
+    margin-right: 32px;
+
+    .transfers-bank-logo-icon {
+      margin: 0 0 0 -20px;
+    }
+  }
+
+  .footer-txt1-w {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .footer-txt1 {
+    display: block;
+    width: 372px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.3px;
+    color: #868686;
+    margin: 0 0 38px 0;
+
+    @media screen and (max-width: 991px) {
+      display: none;
+    }
+  }
+
+  .dropdown-menu {
+    width: 100px;
+    min-width: 100px;
+    margin-top: -225px;
+    margin-left: 153px;
+    border: 1px solid #d4d4d4;
+    overflow: hidden;
+
+    @media screen and (max-width: 991px) {
+      width: 100px;
+      margin-left: 14px;
+      margin-top: -275px;
+    }
+
+    .list-group-item-ul-li {
+      padding: 5px 10px;
+      outline: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f8f8f8;
+      }
+    }
+
+    .dropdown-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .dropdown-list__item {
+      margin: 0;
+      padding: 0;
+      border-bottom: 1px solid #e6e6e6;
+
+      &:last-child {
+        border-bottom: none;
+      }
+      &.last {
+        .dropdown-list__link {
+          justify-content: space-between;
+        }
+        .count {
+          padding: 2px 5px;
+          border-radius: 3px;
+          background: #ff5858;
+          line-height: 1;
+          font-size: 10px;
+          color: #fff;
+          height: 15px;
+          display: inline-block;
+        }
+      }
+    }
+
+    .dropdown-list__link {
+      display: flex;
+      color: #555;
+      font-size: 12px;
+      text-decoration: none;
+      padding: 5px 5px;
+      &:hover {
+        background: #f8f8f8;
+      }
+    }
+
+    .dropdown-list__icon {
+      width: 40px;
+      background-repeat: no-repeat;
+      background-size: 80%;
+      background-position: center center;
+
+      &.tw {
+        background-image: url('/assets/images/e-money.png');
+      }
+    }
+    .dropdown-list__info {
+      width: calc(100% - 40px);
+      padding: 5px 0 5px 5px;
+      .dropdown-list__title {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .footer-appstore {
+    display: inline-block;
+    vertical-align: top;
+    width: 120px;
+    height: 40px;
+    background: url("/assets/images/new-design/app-store.png")no-repeat;
+    margin: 0 8px 0 0;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .footer-android {
+    display: inline-block;
+    vertical-align: top;
+    width: 136px;
+    height: 42px;
+    background: url("/assets/images/new-design/google-play.png")no-repeat;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .footer-huawei {
+    display: inline-block;
+    vertical-align: top;
+    width: 142px;
+    height: 42px;
+    background: url("/assets/images/new-design/huawei.png")no-repeat;
+    margin: 0 20px 0 8px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .footer-qr-code {
+    display: inline-block;
+    vertical-align: top;
+    width: 120px;
+    height: 120px;
+    background: url("/assets/images/new-design/qr_code.png")no-repeat;
+
+    @media screen and (max-width: 991px) {
+      display: none;
+    }
+  }
+
+  &__socials {
+    margin: 60px 0 0 0;
+
+    @media screen and (max-width: 991px) {
+      margin: 16px 0 0 0;
+    }
+  }
+
+  .btn-p-8 {
+    padding: 0 8px;
+  }
+
+  &__youtube {
+    margin: -60px 0 0 0;
+
+    @media screen and (max-width: 991px) {
+      margin: 16px 0 0 0;
+    }
+  }
+
+  &__facebook {
+    margin: 12px 0 0 0;
+
+    @media screen and (max-width: 991px) {
+      margin: 16px 0 0 0;
+    }
+  }
+
+  &__telegram {
+    margin: 12px 0 0 0;
+
+    @media screen and (max-width: 991px) {
+      margin: 16px 0 0 0;
+    }
+  }
+
+  &__phone {
+    // font-size: 20px;
+    margin: 16px 0 0 0;
+    // font-weight: 500;
+
+    @media screen and (max-width: 991px) {
+      font-size: 16px;
+    }
+
+    a {
+      color: #222;
+    }
+  }
+
+  &__number-phone {
+    margin: 0 0 0 8px;
+  }
+
+  &__copy {
+    font-size: 12px;
+    color: $steel;
+  }
+
+  a.ui-link {
+    color: #008d48;
+  }
+
+  &__lang {
+    color: #838383;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 12px;
+    border-radius: 40px;
+    text-decoration: none;
+    line-height: 32px;
+    cursor: pointer;
+  }
+
+  a.footer__lang-active {
+    background-color: #868686;
+    color: $white;
+  }
+
+  .layout-footer-social-link-w {
+    margin-left: 12px;
+  }
+
+  .layout-footer-social-link-w:hover {
+    text-decoration: none;
+  }
+
+  .layout-footer-social-link {
+    display: inline-block;
+    vertical-align: top;
+    width: 24px;
+    height: 24px;
+    margin-left: 20px;
+    margin-top: 4px;
+    fill: #7f8488;
+
+    @media screen and (max-width: 991px) {
+      margin-left: 13px;
+    }
+
+    &:hover {
+      .svg-icon {
+        fill: #00a755;
+      }
+    }
+  }
+}

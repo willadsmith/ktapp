@@ -8,6 +8,7 @@ declare var EventBus: any;
 declare var endConnection: any;
 declare var startConnection: any;
 declare var getActiveTokens: any;
+declare var selectSignType: any;
 
 import { AuthenticationService } from '@app/_services';
 
@@ -44,9 +45,18 @@ export class LoginComponent implements OnInit {
     }
 
     selectNCAStore() {
-        setTimeout(function () {
-            getActiveTokens("getActiveTokensBack");
-        }, 500);
+      startConnection();
+      EventBus.subscribe('connect', res => {
+        if (res === 1) {
+  
+          selectSignType('LOGIN')
+        } else {
+          console.log('Не запущен или не установлен NCALayer', 'Error')
+  
+          EventBus.unsubscribe('connect');
+          // EventBus.unsubscribe('token');
+        }
+      });
     }
 
     // convenience getter for easy access to form fields

@@ -28,7 +28,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/assets/style/global.scss"
+              "src/assets/style/global.scss",
+              "src/assets/style/tabs.scss",
+              "src/assets/style/layout/footer.scss",
+              "src/assets/style/layout/header.scss",
+              "src/assets/style/layout/layout.scss",
+              "src/assets/style/layout/menu.scss",
+              "src/assets/style/layout/navbar.scss"
             ],
             "scripts": [
               "src/assets/scripts/ncalayer.js"

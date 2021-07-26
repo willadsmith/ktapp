@@ -7,6 +7,8 @@
 
     <!-- bootstrap css -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+    <link href="./assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
     <app>Загрузка...</app>
@@ -50,6 +52,22 @@
     
         function signXmlBack(result) {
           return EventBus.publish('signed', result);
+        }
+
+        function selectSignType(requestType) { // eslint-disable-line
+          /**
+           * CONNECTING 0 The connection is not yet open.
+           * OPEN 1 The connection is open and ready to communicate.
+           * CLOSING 2 The connection is in the process of closing.
+           * CLOSED 3 The connection is closed or couldn't be opened.
+           */
+          signType = requestType;
+
+          if (webSocket === null || webSocket.readyState === 3 || webSocket.readyState === 2) {
+              initNCALayer('selectNCAStore');
+          } else {
+              selectNCAStore();
+          }
         }
       </script>
 </html>

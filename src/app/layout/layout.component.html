@@ -1,0 +1,20 @@
+<div class="application-container container-fluid d-flex flex-column">
+  <app-header [isMenuOpened]="isMenuOpened" (toggleMenuState)="toggleMenuState($event)"></app-header>
+  <div class="row d-flex flex-grow-1">
+    <div class="d-flex flex-grow-1 col-12 p-0">
+      <div class="navigation" [ngClass]="{'opened': isMenuOpened}">
+        <app-navbar></app-navbar>
+      </div>
+      <toaster-container [toasterconfig]="config"></toaster-container>
+      <div class="content-container d-flex flex-column flex-grow-1 col-12" id="content-container">
+        <div class="flex-grow-1">
+          <router-outlet></router-outlet>
+        </div>
+        <!-- <app-footer class="footer-m-l"></app-footer> -->
+        <div class="mobile-menu-overlay"
+             [ngClass]="{'active': isMenuOpened}"
+             (click)="toggleMenuState($event)"></div>
+      </div>
+    </div>
+  </div>
+</div>
