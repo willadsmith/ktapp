@@ -9,6 +9,7 @@ declare var endConnection: any;
 declare var startConnection: any;
 declare var getActiveTokens: any;
 declare var selectSignType: any;
+declare var chooseNCAStorage: any;
 
 import { AuthenticationService } from '@app/_services';
 
@@ -20,6 +21,8 @@ export class LoginComponent implements OnInit {
     returnUrl: string;
     version: string;
     xml: string;
+    method: string;
+    auth_xml: string;
     error = '';
     
 
@@ -50,6 +53,7 @@ export class LoginComponent implements OnInit {
         if (res === 1) {
   
           selectSignType('LOGIN')
+          this.authSubmit()
         } else {
           console.log('Не запущен или не установлен NCALayer', 'Error')
   
@@ -61,6 +65,16 @@ export class LoginComponent implements OnInit {
 
     // convenience getter for easy access to form fields
     // get f() { return this.loginForm.controls; }
+
+    authSubmit() {
+      EventBus.subscribe('auth_token', response => {
+        this.auth_xml = response
+
+        this.onSubmit()
+      })
+
+      EventBus.unsubscribe('connect');
+    }
 
     startProcessSign(storage: string) {
         startConnection();
@@ -95,7 +109,7 @@ export class LoginComponent implements OnInit {
             if (res['responseObject'] !== undefined) {
               const responseObj = res['responseObject'];
     
-              console.log(responseObj)   // <--- выходной xml
+              console.log(responseObj)
     
               endConnection();
             }
@@ -104,7 +118,7 @@ export class LoginComponent implements OnInit {
       }
     
       signXmlCall() {
-        const xmlToSign = '<xml></xml>'; // <-- генерация xml
+        const xmlToSign = '<xml></xml>';
         const selectedStorage = 'PKCS12';
     
         signXml(selectedStorage, 'SIGNATURE', xmlToSign, 'signXmlBack');
@@ -119,6 +133,10 @@ export class LoginComponent implements OnInit {
       }
 
     onSubmit() {
+
+      const params = {
+        xml: this.auth_xml
+      }
         
         this.submitted = true;
 
@@ -127,18 +145,22 @@ export class LoginComponent implements OnInit {
         //     return;
         // }
 
+        this.version = '1.0'
+
+        this.method = 'XML.verify'
+
         this.loading = true;
-        this.authenticationService.login(this.version, this.xml)
+        this.authenticationService.login(this.version, this.method , params)
             .pipe(first())
             .subscribe(
                 data => {
                     this.router.navigate([this.returnUrl]);
-                    console.log(data)
+                    console.log('data done', data)
                 },
                 error => {
                     this.error = error;
                     this.loading = false;
-                    console.log(error)
+                    console.log('error submit', error)
                 });
     }
 }

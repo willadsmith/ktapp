@@ -4,12 +4,12 @@ import { LayoutComponent } from './layout/layout.component';
 
 // import { HomeComponent } from './home';
 import { LoginComponent } from './login';
-// import { AuthGuard } from './_helpers';
+import { AuthGuard } from './_helpers';
 
 const routes: Routes = [
-    // { path: '', component: LayoutComponent, canActivate: [AuthGuard] },
-    { path: 'main', component: LayoutComponent },
-    { path: 'login', component: LoginComponent },
+    // { path: '', component: LayoutComponent },
+    { path: 'main', component: LayoutComponent, canActivate: [AuthGuard] },
+    { path: '', component: LoginComponent },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

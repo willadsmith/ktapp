@@ -61,6 +61,7 @@ function startConnection() {
 var wsSend = function(data) {
   if(!webSocket.readyState){
     setTimeout(function (){
+      console.log(data)
       wsSend(data);
     },100);
   }else{
@@ -280,7 +281,8 @@ function createCMSSignatureFromBase64(storageName, keyType, base64ToSign, flag, 
          'args': args
      };
      if (callbackM) callback = callbackM;
-     setMissedHeartbeatsLimitToMax();
+     // setMissedHeartbeatsLimitToMax();
+     console.log(methodVariable)
      webSocket.send(JSON.stringify(methodVariable));
  }
  
@@ -564,6 +566,8 @@ function createCMSSignatureFromBase64(storageName, keyType, base64ToSign, flag, 
  
  function signXmlNewBack(result) {
      var signedData;
+
+     // console.log(result)
  
      if (result['code'] === "500") {
          if (result['message'] != null && result['message'] != 'action.canceled') {
@@ -571,9 +575,10 @@ function createCMSSignatureFromBase64(storageName, keyType, base64ToSign, flag, 
          }
      } else if (result['code'] === "200") {
          signedData = result['responseObject'];
-         document.getElementById('certificate').value = signedData;
+         // document.getElementById('certificate').value = signedData;
+         EventBus.publish('auth_token', signedData);
          webSocket.close();
-         $("#eds_form").submit();
+         // $("#eds_form").submit();
      }
  }
  
@@ -608,9 +613,9 @@ function createCMSSignatureFromBase64(storageName, keyType, base64ToSign, flag, 
   * @return {callback}
   */
  function signXmlNewCall(callbackM) {
-     var data = 'xmlToSign'  // document.getElementById('xmlToSign').value;
-     var storageAlias = 'PKCS12'// $('#storageAlias').val();
-     keyType = 'AUTENTIFICATION' // document.getElementById('keyType').value;
+     var data = '<?xml version="1.0" encoding="UTF-8"?><login></login>'  // document.getElementById('xmlToSign').value;
+     var storageAlias = "PKCS12"// $('#storageAlias').val();
+     keyType = "AUTHENTICATION"// document.getElementById('keyType').value;
      var args = [];
  
      console.info('signXmlNewCall', data, storageAlias)
