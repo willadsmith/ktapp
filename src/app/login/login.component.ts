@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.returnUrl)
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]
@@ -150,12 +151,11 @@ export class LoginComponent implements OnInit {
         this.method = 'XML.verify'
 
         this.loading = true;
-        this.authenticationService.login(this.version, this.method , params)
+        this.authenticationService.login(params)
             .pipe(first())
             .subscribe(
                 data => {
                     this.router.navigate([this.returnUrl]);
-                    console.log('data done', data)
                 },
                 error => {
                     this.error = error;

@@ -20,9 +20,9 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(version: string, method: string, params: object) {
+    login(params: object) {
         // console.log(environment.apiUrl)
-        return this.http.post<any>(`${environment.apiUrl}/auth/login`, { version, method, params })
+        return this.http.post<any>(`${environment.apiUrl}/auth/login`, { params })
             .pipe(map(user => {
                 console.log(user)
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
