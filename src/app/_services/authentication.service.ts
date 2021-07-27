@@ -23,8 +23,9 @@ export class AuthenticationService {
             .pipe(map(user => {
                 console.log(user)
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
+
                 localStorage.setItem('currentUser', JSON.stringify(user));
-                localStorage.setItem('token', JSON.stringify(user['token']['accessToken']));
+                localStorage.setItem('token', user['token']['accessToken']);
                 this.currentUserSubject.next(user);
                 return user;
             }));
@@ -42,10 +43,12 @@ export class AuthenticationService {
     }
 
     doc(url: string) {
+      const token=localStorage.getItem('token');
+
         let header = new HttpHeaders().set(
             "Authorization",
-            "Bearer " + localStorage.getItem('token')
-        ) 
-        return this.http.get<Docs>(environment.apiUrl + url, { headers: header })
+            "Bearer " + token
+        )
+        return this.http.post<Docs>(environment.apiUrl + url, { headers: header }).pipe(map(user => {console.log(user); return user}))
     }
 }
