@@ -56,9 +56,12 @@ export class LayoutComponent implements OnInit {
     this.isMenuOpened = !this.isMenuOpened;
   }
 
-  getItems() {
-    this.authenticationService.doc().pipe()
-  }
+  getItems(): void {
+    this.authenticationService.doc('/documents').subscribe(
+      response => {
+        console.log(response)
+      }
+  )}
 
   ngOnInit() {
     

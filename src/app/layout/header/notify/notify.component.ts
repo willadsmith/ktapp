@@ -42,7 +42,7 @@ export class NotifyComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 
   public onClickNotice(notify: NotifyModel): void {

@@ -1,23 +1,20 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { User } from '@app/_models';
+import { Docs, User } from '../_models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
+    public docs: Observable<Docs>;
 
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
-    }
-
-    public get currentUserValue(): User {
-        return this.currentUserSubject.value;
     }
 
     login(params: object) {
@@ -40,21 +37,15 @@ export class AuthenticationService {
         this.currentUserSubject.next(null);
     }
 
-    doc() {
-        console.log('this')
-        let header = new HttpHeaders().append(
+    public get currentUserValue(): User {
+        return this.currentUserSubject.value;
+    }
+
+    doc(url: string) {
+        let header = new HttpHeaders().set(
             "Authorization",
             "Bearer " + localStorage.getItem('token')
         ) 
-        // console.log(environment.apiUrl)
-        return this.http.get(`${environment.apiUrl}/documents`, { headers: header })
-            // .pipe(map(item => {
-            //     console.log(item)
-            //     // store user details and jwt token in local storage to keep user logged in between page refreshes
-            //     // localStorage.setItem('currentUser', JSON.stringify(user));
-            //     // localStorage.setItem('token', JSON.stringify(user['token']['accessToken']));
-            //     // this.currentUserSubject.next(user);
-            //     return item;
-            // }));
+        return this.http.get<Docs>(environment.apiUrl + url, { headers: header })
     }
 }
