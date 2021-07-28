@@ -8,8 +8,22 @@
       <toaster-container [toasterconfig]="config"></toaster-container>
       <div class="content-container d-flex flex-column flex-grow-1 col-12" id="content-container">
         <div class="flex-grow-1">
-            <button (click)="getItems()">Получить список документов</button>
-          <router-outlet></router-outlet>
+            <!-- <button (click)="getItems()">Получить список документов</button> -->
+            <table>
+              <tbody>
+                <tr>Список документов</tr>
+                <td>
+                  <hr>
+                  <div *ngFor="let doc of docs">
+                    <h4>Имя документа: {{doc.name}}</h4>
+                    <h6>Дата создания: {{doc.created}}</h6>
+                    <button (click)="startProcessSign()"> Подписать документ </button>
+                    <hr>
+                    </div>
+                </td>
+              </tbody>
+            </table>
+          <!-- <router-outlet></router-outlet> -->
         </div>
         <!-- <app-footer class="footer-m-l"></app-footer> -->
         <div class="mobile-menu-overlay"

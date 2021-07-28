@@ -76,54 +76,6 @@ export class LoginComponent implements OnInit {
 
       EventBus.unsubscribe('connect');
     }
-
-    startProcessSign(storage: string) {
-        startConnection();
-        EventBus.subscribe('connect', res => {
-          if (res === 1) {
-    
-            this.signatureDocsConfirm();
-          } else {
-            console.log('Не запущен или не установлен NCALayer', 'Error')
-    
-            EventBus.unsubscribe('connect');
-            EventBus.unsubscribe('token');
-          }
-        });
-      }
-    
-      signatureDocsConfirm() {
-        this.signXmlCall();
-        EventBus.subscribe('signed', async (res) => {
-          console.log('signed start', res);
-          if (res['code'] === '500') {
-            if (res.message !==  'action.canceled') {
-                console.log(`Ошибка NCALayer: ${res.message}`, 'Error')
-            }
-            EventBus.unsubscribe('signed');
-            EventBus.unsubscribe('connect');
-            EventBus.unsubscribe('token');
-            endConnection();
-          }
-    
-          if (res['code'] === '200') {
-            if (res['responseObject'] !== undefined) {
-              const responseObj = res['responseObject'];
-    
-              console.log(responseObj)
-    
-              endConnection();
-            }
-          }
-        });
-      }
-    
-      signXmlCall() {
-        const xmlToSign = '<xml></xml>';
-        const selectedStorage = 'PKCS12';
-    
-        signXml(selectedStorage, 'SIGNATURE', xmlToSign, 'signXmlBack');
-      }
     
       withOutSpaces(event): boolean {
         const charCode = event.which ? event.which : event.keyCode;

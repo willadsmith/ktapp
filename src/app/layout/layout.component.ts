@@ -3,13 +3,15 @@ import { Router } from '@angular/router';
 import { Docs } from '../_models/docs';
 import { BackendService } from '@app/_services/backend-service';
 import { ToasterConfig, ToasterService } from 'angular2-toaster';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '@environments/environment';
 import { AuthenticationService } from '../_services/authentication.service';
-// import { UserProfileService } from '../core/services/user-profile.service';
-// import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-// import { AuthService } from '../core/services/auth.service';
-// import { SendValidationModalComponent } from '../shared/components/send-validation-modal/send-validation-modal.component';
+
+declare var signXml: any;
+declare var EventBus: any;
+declare var endConnection: any;
+declare var startConnection: any;
+declare var getActiveTokens: any;
+declare var selectSignType: any;
+declare var chooseNCAStorage: any;
 
 @Component({
   selector: 'app-layout',
@@ -22,6 +24,8 @@ export class LayoutComponent implements OnInit {
   public isLogged = false;
   // public modalRef: BsModalRef;
   public isMenuOpened = false;
+  public docs;
+  public signTag;
 
   public config: ToasterConfig =
     new ToasterConfig({
@@ -35,46 +39,66 @@ export class LayoutComponent implements OnInit {
               private authenticationService: AuthenticationService
               ) {
     router.events.subscribe((url: any) => this.currentUrl = router.url);
-    // if (authService.getToken() !== undefined) {
-    //   this.isLogged = true;
-    // }
-  }
-
-  private showPhoneActualizationModal(): void {
-    // const login = this.userProfileService.getProfile().login;
-    const initialState = {
-      // login: login,
-      isLoginEditable: true,
-      isCloseable: false,
-      requestParams: {
-        action: 'CHANGE_LOGIN'
-      }
-    };
   }
 
   toggleMenuState(e?) {
     this.isMenuOpened = !this.isMenuOpened;
   }
 
-  getItems(): void {
+  ngOnInit() {
     this.authenticationService.doc('/documents').subscribe(
       response => {
-        console.log(response)
+        this.docs = response
       }
-  )}
+    )
+    console.log(this.docs)
+  }
 
-  ngOnInit() {
-    
-    // const headers = {
-    //   'Authorization': `Bearer ${localStorage.getItem('token')}`
-    // }
-    // this.http.get<any>(environment.apiUrl + '/documents', { headers }).subscribe(data => {
-    //     console.log(data)
-    // })
+  startProcessSign(storage: string, sign: string) {
+    startConnection();
+    EventBus.subscribe('connect', res => {
+      if (res === 1) {
 
-    // this.getItems()
-    // if (this.authService.isNeedActualization) {
-    //   this.showPhoneActualizationModal();
-    // }
+        this.signatureDocsConfirm();
+      } else {
+        console.log('Не запущен или не установлен NCALayer', 'Error')
+
+        EventBus.unsubscribe('connect');
+        EventBus.unsubscribe('token');
+      }
+    });
+  }
+
+  signatureDocsConfirm() {
+    this.signXmlCall();
+    EventBus.subscribe('signed', async (res) => {
+      console.log('signed start', res);
+      if (res['code'] === '500') {
+        if (res.message !==  'action.canceled') {
+            console.log(`Ошибка NCALayer: ${res.message}`, 'Error')
+        }
+        EventBus.unsubscribe('signed');
+        EventBus.unsubscribe('connect');
+        EventBus.unsubscribe('token');
+        endConnection();
+      }
+
+      if (res['code'] === '200') {
+        if (res['responseObject'] !== undefined) {
+          const responseObj = res['responseObject'];
+
+          console.log(responseObj)
+
+          endConnection();
+        }
+      }
+    });
+  }
+
+  signXmlCall() {
+    const xmlToSign = '<xml></xml>';
+    const selectedStorage = 'PKCS12';
+
+    signXml(selectedStorage, 'SIGNATURE', xmlToSign, 'signXmlBack');
   }
 }
