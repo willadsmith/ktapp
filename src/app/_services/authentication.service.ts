@@ -43,12 +43,16 @@ export class AuthenticationService {
     }
 
     doc(url: string) {
-      const token=localStorage.getItem('token');
+      const token = localStorage.getItem('token');
 
         let header = new HttpHeaders().set(
             "Authorization",
             "Bearer " + token
         )
         return this.http.post<Docs>(environment.apiUrl + url, { headers: header }).pipe(map(user => {console.log(user); return user}))
+    }
+
+    sign(url: string, params: object) {
+        return this.http.post<any>(environment.apiUrl + url, { params }).pipe(map(sign => {console.log(sign); return sign}))
     }
 }

@@ -51,10 +51,14 @@ export class LayoutComponent implements OnInit {
         this.docs = response
       }
     )
-    console.log(this.docs)
   }
 
+  // sendReq() {
+  //   this.authenticationService.sign('/signature', {'<xml>der</xml>':''}).subscribe(response => console.log(response))
+  // }
+
   startProcessSign(storage: string, sign: string) {
+    this.signTag = sign
     startConnection();
     EventBus.subscribe('connect', res => {
       if (res === 1) {
@@ -85,9 +89,13 @@ export class LayoutComponent implements OnInit {
 
       if (res['code'] === '200') {
         if (res['responseObject'] !== undefined) {
-          const responseObj = res['responseObject'];
+          const xml = res['responseObject'];
 
-          console.log(responseObj)
+          this.authenticationService.sign('/signature', {xml}).subscribe(response => console.log(response))
+
+          EventBus.unsubscribe('signed');
+          EventBus.unsubscribe('connect');
+          EventBus.unsubscribe('token');
 
           endConnection();
         }
@@ -96,7 +104,7 @@ export class LayoutComponent implements OnInit {
   }
 
   signXmlCall() {
-    const xmlToSign = '<xml></xml>';
+    const xmlToSign = '<xml>' + this.signTag + '</xml>';
     const selectedStorage = 'PKCS12';
 
     signXml(selectedStorage, 'SIGNATURE', xmlToSign, 'signXmlBack');
