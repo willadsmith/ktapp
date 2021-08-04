@@ -17,8 +17,11 @@
                   <div class="card_doc" *ngFor="let doc of docs">
                     <div>
                     <h4>Имя документа: {{doc.name}}</h4>
-                    <h6>Дата создания: {{doc.created}}</h6>
-                    <button *ngIf="signStatus === false" class="btn btn-1 btn-success" type="button" (click)="startProcessSign('PKSC12', doc.body_html)"> Подписать документ </button>
+                    <h6>Дата создания: {{doc.createdAt}}</h6>
+                    <span class="text-warning" *ngIf="doc.status === 'PENDING'">Статус документа: Требует подписания</span>
+                    <span class="text-danger" *ngIf="doc.status === 'DECLINE'">Статус документа: Отклонен</span>
+                    <span class="text-success" *ngIf="doc.status === 'SIGNED'">Статус документа: Подписан</span>
+                    <button *ngIf="doc.status === 'PENDING'" class="btn btn-1 btn-success" type="button" (click)="startProcessSign('PKSC12', doc.body_html)"> Подписать документ </button>
                     </div>
                     <!-- <hr> -->
                   </div>

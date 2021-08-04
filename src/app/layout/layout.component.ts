@@ -97,7 +97,7 @@ export class LayoutComponent implements OnInit {
 
           this.toastr.success('Документ успешно подписан', 'Подписано')
 
-          this.authenticationService.sign('/signature', {xml}).subscribe(response => console.log(response))
+          this.authenticationService.sign('/signature/document', {xml}).subscribe(response => console.log(response))
 
           EventBus.unsubscribe('signed');
           EventBus.unsubscribe('connect');
