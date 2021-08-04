@@ -2,6 +2,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 declare var signXml: any;
 declare var EventBus: any;
@@ -30,7 +31,8 @@ export class LoginComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
+        private toastr: ToastrService
     ) { 
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) { 
@@ -56,7 +58,8 @@ export class LoginComponent implements OnInit {
           selectSignType('LOGIN')
           this.authSubmit()
         } else {
-          console.log('Не запущен или не установлен NCALayer', 'Error')
+          this.toastr.error('Не запущен или не установлен NCALayer', 'Ошибка NCALayer')
+          // console.log('Не запущен или не установлен NCALayer', 'Error')
   
           EventBus.unsubscribe('connect');
           // EventBus.unsubscribe('token');

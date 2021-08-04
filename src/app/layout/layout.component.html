@@ -13,13 +13,15 @@
               <tbody>
                 <tr>Список документов</tr>
                 <td>
-                  <hr>
-                  <div *ngFor="let doc of docs">
+                  <!-- <hr> -->
+                  <div class="card_doc" *ngFor="let doc of docs">
+                    <div>
                     <h4>Имя документа: {{doc.name}}</h4>
                     <h6>Дата создания: {{doc.created}}</h6>
-                    <button (click)="startProcessSign('PKSC12', doc.body_html)"> Подписать документ </button>
-                    <hr>
+                    <button *ngIf="signStatus === false" class="btn btn-1 btn-success" type="button" (click)="startProcessSign('PKSC12', doc.body_html)"> Подписать документ </button>
                     </div>
+                    <!-- <hr> -->
+                  </div>
                 </td>
               </tbody>
             </table>

@@ -34,7 +34,8 @@
               "src/assets/style/layout/header.scss",
               "src/assets/style/layout/layout.scss",
               "src/assets/style/layout/menu.scss",
-              "src/assets/style/layout/navbar.scss"
+              "src/assets/style/layout/navbar.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "src/assets/scripts/ncalayer.js"

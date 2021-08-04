@@ -3,6 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
+
 // used to create fake backend
 // import { fakeBackendProvider } from './_helpers';
 
@@ -23,7 +27,10 @@ import { BackendService } from './_services/backend-service';
         ReactiveFormsModule,
         HttpClientModule,
         AppRoutingModule,
-        NgbModule
+        NgbModule,
+        CommonModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot()
     ],
     declarations: [
         AppComponent,

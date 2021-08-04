@@ -4,6 +4,7 @@ import { Docs } from '../_models/docs';
 import { BackendService } from '@app/_services/backend-service';
 import { ToasterConfig, ToasterService } from 'angular2-toaster';
 import { AuthenticationService } from '../_services/authentication.service';
+import { ToastrService } from 'ngx-toastr';
 
 declare var signXml: any;
 declare var EventBus: any;
@@ -26,6 +27,7 @@ export class LayoutComponent implements OnInit {
   public isMenuOpened = false;
   public docs;
   public signTag;
+  public signStatus = false;
 
   public config: ToasterConfig =
     new ToasterConfig({
@@ -34,7 +36,7 @@ export class LayoutComponent implements OnInit {
     });
 
   constructor(private router: Router,
-              private toasterService: ToasterService,
+              private toastr: ToastrService,
               private backendService: BackendService,
               private authenticationService: AuthenticationService
               ) {
@@ -90,6 +92,10 @@ export class LayoutComponent implements OnInit {
       if (res['code'] === '200') {
         if (res['responseObject'] !== undefined) {
           const xml = res['responseObject'];
+
+          this.signStatus = true;
+
+          this.toastr.success('Документ успешно подписан', 'Подписано')
 
           this.authenticationService.sign('/signature', {xml}).subscribe(response => console.log(response))
 
