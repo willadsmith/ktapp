@@ -19,6 +19,7 @@ import { LoginComponent } from './login';
 import { LayoutModule } from './layout/layout.module';;
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { BackendService } from './_services/backend-service';
+import { BaseComponentsModule } from './base/components/components.module';
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import { BackendService } from './_services/backend-service';
         NgbModule,
         CommonModule,
         BrowserAnimationsModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        BaseComponentsModule
     ],
     declarations: [
         AppComponent,
@@ -41,7 +43,6 @@ import { BackendService } from './_services/backend-service';
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
-        // provider used to create fake backend
         BackendService
     ],
     bootstrap: [AppComponent]

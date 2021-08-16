@@ -7,14 +7,13 @@
       </div>
       <toaster-container [toasterconfig]="config"></toaster-container>
       <div class="content-container d-flex flex-column flex-grow-1 col-12" id="content-container">
-        <div class="flex-grow-1">
+        <div class="flex-grow-1 ml-5">
             <!-- <button (click)="getItems()">Получить список документов</button> -->
             <table>
               <tbody>
-                <tr>Список документов</tr>
+                <tr><strong>Список документов</strong></tr>
                 <td>
-                  <!-- <hr> -->
-                  <div class="card_doc" *ngFor="let doc of docs">
+                  <!-- <div class="card_doc" *ngFor="let doc of docs">
                     <div>
                     <h4>Имя документа: {{doc.name}}</h4>
                     <h6>Дата создания: {{doc.createdAt}}</h6>
@@ -23,14 +22,54 @@
                     <span class="text-success" *ngIf="doc.status === 'SIGNED'">Статус документа: Подписан</span>
                     <button *ngIf="doc.status === 'PENDING'" class="btn btn-1 btn-success" type="button" (click)="startProcessSign('PKSC12', doc.body_html)"> Подписать документ </button>
                     </div>
-                    <!-- <hr> -->
+                  </div> -->
+
+                  <div class="card_doc" *ngFor="let doc of docs">
+                    <div>
+                    <h4>Имя документа: {{doc.name}}</h4>
+                    <h6>Дата создания: {{doc.createdAt}}</h6>
+                    <span class="text-warning" *ngIf="doc.status === 'PENDING'">Статус документа: Требует подписания</span>
+                    <span class="text-danger" *ngIf="doc.status === 'DECLINE'">Статус документа: Отклонен</span>
+                    <span class="text-success" *ngIf="doc.status === 'SIGNED'">Статус документа: Подписан</span>
+                    <hr>
+                    <button *ngIf="doc.status === 'PENDING'" class="btn btn-1 btn-success" type="button" (click)="startProcessSign('PKSC12', 'html')"> Подписать документ </button>
+                    </div>
                   </div>
+
+                  <!-- <div class="card_doc">
+                    <div>
+                    <h4>Имя документа: Документ 1</h4>
+                    <h6>Дата создания: 01/12/20</h6>
+                    <span class="text-warning">Статус документа: Требует подписания</span>
+                    <hr>
+                    <button class="btn btn-1 btn-success" type="button" (click)="startProcessSign('PKSC12', 'html')"> Подписать документ </button>
+                    </div>
+                  </div>
+
+                  <div class="card_doc">
+                    <div>
+                    <h4>Имя документа: Документ 2</h4>
+                    <h6>Дата создания: 13/08/20</h6>
+                    <hr>
+                    <span class="text-danger">Статус документа: Отклонен</span>
+                    </div>
+                  </div>
+
+                  <div class="card_doc">
+                    <div>
+                    <h4>Имя документа: Документ 3</h4>
+                    <h6>Дата создания: 23/02/21</h6>
+                    <hr>
+                    <span class="text-success">Статус документа: Подписан</span>
+                    </div>
+                  </div> -->
+
                 </td>
               </tbody>
             </table>
           <!-- <router-outlet></router-outlet> -->
         </div>
-        <!-- <app-footer class="footer-m-l"></app-footer> -->
+        <app-footer class="footer-m-l"></app-footer>
         <div class="mobile-menu-overlay"
              [ngClass]="{'active': isMenuOpened}"
              (click)="toggleMenuState($event)"></div>

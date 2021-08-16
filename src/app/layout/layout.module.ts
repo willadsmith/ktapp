@@ -5,6 +5,7 @@ import {RouterModule} from '@angular/router';
 
 import {LayoutComponent} from './layout.component';
 import {HeaderComponent} from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 import {ToasterModule} from 'angular2-toaster';
 import {NotifyComponent} from './header/notify/notify.component';
@@ -27,12 +28,13 @@ import {MenuComponent} from './header/menu/menu.component';
     LayoutComponent,
     HeaderComponent,
     NotifyComponent,
-    HeaderComponent,
+    FooterComponent,
     NavbarComponent,
     MenuComponent
   ],
   exports: [
     LayoutComponent,
+    FooterComponent,
     HeaderComponent
   ],
   providers: [NotifyService]

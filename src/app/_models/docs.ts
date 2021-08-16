@@ -4,3 +4,14 @@ export class Docs {
     body_html: string;
     created: string;
 }
+
+export class Company {
+    data: [{
+        name: string;
+        bin: string;
+        id: string;
+        createdAt: string;
+        documents: object;
+        iban: string;
+    }]
+}
