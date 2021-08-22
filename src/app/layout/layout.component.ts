@@ -95,7 +95,7 @@ export class LayoutComponent implements OnInit {
             if (response.statusCode === 416) {
               this.toastr.error(response.message, 'Ошибка подписи')
             } else {
-              this.toastr.error('Документ успешно подписан', 'Подписано')
+              this.toastr.success('Документ успешно подписан', 'Подписано')
             }
           })
 
