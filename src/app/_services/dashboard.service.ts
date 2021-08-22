@@ -39,10 +39,10 @@ export class DashboardService {
     // }
 
     docsCompany(url: string) {
-        return this.http.get<Company>(environment.apiUrl + url).pipe(map(doc => {console.log(doc); return doc}))
+        return this.http.get<Company>(environment.apiUrl + url).pipe(map(doc => {return doc}))
     }
 
     sign(url: string, params: object) {
-        return this.http.post<any>(environment.apiUrl + url, { params }).pipe(map(sign => {console.log(sign); return sign}))
+        return this.http.post<any>(environment.apiUrl + url, { params }).pipe(map(sign => { return sign}))
     }
 }

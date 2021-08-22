@@ -25,6 +25,8 @@ export class LoginComponent implements OnInit {
     method: string;
     auth_xml: string;
     error = '';
+    roleUser: string;
+    userObject: {};
     
 
     constructor(
@@ -34,6 +36,7 @@ export class LoginComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private toastr: ToastrService
     ) { 
+      this.userObject = this.authenticationService.currentUserValue
         // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) { 
             this.router.navigate(['/']);
@@ -41,7 +44,6 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.returnUrl)
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]
@@ -59,7 +61,6 @@ export class LoginComponent implements OnInit {
           this.authSubmit()
         } else {
           this.toastr.error('Не запущен или не установлен NCALayer', 'Ошибка NCALayer')
-          // console.log('Не запущен или не установлен NCALayer', 'Error')
   
           EventBus.unsubscribe('connect');
           // EventBus.unsubscribe('token');
@@ -89,6 +90,7 @@ export class LoginComponent implements OnInit {
       }
 
     onSubmit() {
+      this.authenticationService.logout();
 
       const params = {
         xml: this.auth_xml
@@ -110,12 +112,13 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
+                    this.returnUrl = '/cabinet';
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
                     this.error = error;
                     this.loading = false;
-                    console.log('error submit', error)
+                    this.toastr.error(error, 'Ошибка')
                 });
     }
 }

@@ -36,14 +36,13 @@ export class BaseDashboardComponent implements OnInit {
 
   startProcessSign(storage: string, sign: string) {
     this.signTag = sign
-    console.log(sign)
     startConnection();
     EventBus.subscribe('connect', res => {
       if (res === 1) {
 
         this.signatureDocsConfirm();
       } else {
-        console.log('Не запущен или не установлен NCALayer', 'Error')
+        this.toastr.success('Не запущен или не установлен NCALayer', 'Ошибка')
 
         EventBus.unsubscribe('connect');
         EventBus.unsubscribe('token');
@@ -54,10 +53,9 @@ export class BaseDashboardComponent implements OnInit {
   signatureDocsConfirm() {
     this.signXmlCall();
     EventBus.subscribe('signed', async (res) => {
-      console.log('signed start', res);
       if (res['code'] === '500') {
         if (res.message !==  'action.canceled') {
-            console.log(`Ошибка NCALayer: ${res.message}`, 'Error')
+          this.toastr.success(`Ошибка NCALayer: ${res.message}`, 'Ошибка')
         }
         EventBus.unsubscribe('signed');
         EventBus.unsubscribe('connect');

@@ -20,6 +20,7 @@ import { LayoutModule } from './layout/layout.module';;
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 import { BackendService } from './_services/backend-service';
 import { BaseComponentsModule } from './base/components/components.module';
+import { FoundComponent } from './founder/founder.component';
 
 @NgModule({
     imports: [
@@ -37,7 +38,8 @@ import { BaseComponentsModule } from './base/components/components.module';
     declarations: [
         AppComponent,
         HomeComponent,
-        LoginComponent
+        LoginComponent,
+        FoundComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

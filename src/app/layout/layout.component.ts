@@ -55,10 +55,6 @@ export class LayoutComponent implements OnInit {
     )
   }
 
-  // sendReq() {
-  //   this.authenticationService.sign('/signature', {'<xml>der</xml>':''}).subscribe(response => console.log(response))
-  // }
-
   startProcessSign(storage: string, sign: string) {
     this.signTag = sign
     startConnection();
@@ -95,9 +91,13 @@ export class LayoutComponent implements OnInit {
 
           this.signStatus = true;
 
-          this.toastr.success('Документ успешно подписан', 'Подписано')
-
-          this.authenticationService.sign('/signature/document', {xml}).subscribe(response => console.log(response))
+          this.authenticationService.sign('/signature/document', {xml}).subscribe(response => {
+            if (response.statusCode === 416) {
+              this.toastr.error(response.message, 'Ошибка подписи')
+            } else {
+              this.toastr.error('Документ успешно подписан', 'Подписано')
+            }
+          })
 
           EventBus.unsubscribe('signed');
           EventBus.unsubscribe('connect');

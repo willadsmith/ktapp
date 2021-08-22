@@ -20,6 +20,7 @@
                 </ng-template>
                   <ng-template ngbTabContent>
                     <button class="btn btn-1 btn-success" [disabled]="loading" (click)="selectNCAStore()" type="button">Вход по ЭЦП</button>
+                    <!-- <button *ngIf="roleUser === 'USER'" class="btn btn-1 btn-success" [disabled]="loading" (click)="goToUser()" type="button">Войти в кабинет</button> -->
                   </ng-template>
               </ngb-tab>
               <ngb-tab>
