@@ -33,10 +33,10 @@
                 <td>
                   <span *ngIf="docComp.documents[i].status === 'PENDING'" class="text-warning">Требует подписи</span>
                   <span *ngIf="docComp.documents[i].status === 'DECLINE'" class="text-danger">Отклонен</span>
-                  <span *ngIf="docComp.documents[i].status === 'SIGNED'" class="text-success">Подписан</span>
+                  <span *ngIf="docComp.documents[i].status === 'APPROVED'" class="text-success">Подписан</span>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-success" (click)="startProcessSign('PKSC12', docComp.documents[i].body, docComp.id)">Подписать</button>
+                  <button *ngIf="docComp.documents[i].status === 'PENDING'" type="button" class="btn btn-success" (click)="startProcessSign('PKSC12', docComp.documents[i].body, docComp.id)">Подписать</button>
                 </td>
               </tr>
             </tbody>
