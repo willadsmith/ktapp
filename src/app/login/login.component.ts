@@ -95,13 +95,7 @@ export class LoginComponent implements OnInit {
       const params = {
         xml: this.auth_xml
       }
-        
         this.submitted = true;
-
-        // // stop here if form is invalid
-        // if (this.loginForm.invalid) {
-        //     return;
-        // }
 
         this.version = '1.0'
 
@@ -114,11 +108,17 @@ export class LoginComponent implements OnInit {
                 data => {
                     this.returnUrl = '/cabinet';
                     this.router.navigate([this.returnUrl]);
+                    EventBus.unsubscribe('connect');
+                    EventBus.unsubscribe('auth_token');
+                    endConnection()
                 },
                 error => {
                     this.error = error;
                     this.loading = false;
                     this.toastr.error(error, 'Ошибка')
+                    EventBus.unsubscribe('connect');
+                    EventBus.unsubscribe('auth_token');
+                    endConnection()
                 });
     }
 }

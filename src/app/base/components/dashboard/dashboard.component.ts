@@ -26,6 +26,7 @@ export class BaseDashboardComponent implements OnInit {
   public clicked1: boolean = false;
   public docsCompany;
   public signTag;
+  public companyId;
   public signStatus = false;
 
   ngOnInit() {
@@ -34,8 +35,9 @@ export class BaseDashboardComponent implements OnInit {
     })
   }
 
-  startProcessSign(storage: string, sign: string) {
+  startProcessSign(storage: string, sign: string, id: string) {
     this.signTag = sign
+    this.companyId = id
     console.log(this.signTag)
     startConnection();
     EventBus.subscribe('connect', res => {
@@ -72,7 +74,7 @@ export class BaseDashboardComponent implements OnInit {
 
           this.toastr.success('Документ успешно подписан', 'Подписано')
 
-          this.dashboardService.sign('/signature/document', {xml}).subscribe(response => console.log(response))
+          this.dashboardService.sign('/signature/operator', this.companyId, {xml}).subscribe(response => console.log(response))
 
           EventBus.unsubscribe('signed');
           EventBus.unsubscribe('connect');

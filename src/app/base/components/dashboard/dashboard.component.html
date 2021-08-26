@@ -36,7 +36,7 @@
                   <span *ngIf="docComp.documents[i].status === 'SIGNED'" class="text-success">Подписан</span>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-success" (click)="startProcessSign('PKSC12', docComp.documents[i].body)">Подписать</button>
+                  <button type="button" class="btn btn-success" (click)="startProcessSign('PKSC12', docComp.documents[i].body, docComp.id)">Подписать</button>
                 </td>
               </tr>
             </tbody>
