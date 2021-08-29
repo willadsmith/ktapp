@@ -566,8 +566,9 @@ function createCMSSignatureFromBase64(storageName, keyType, base64ToSign, flag, 
  
  function signXmlNewBack(result) {
      var signedData;
+     EventBus.publish('signConnectResult', result)
 
-     // console.log(result)
+    //  console.log(result)
  
      if (result['code'] === "500") {
          if (result['message'] != null && result['message'] != 'action.canceled') {

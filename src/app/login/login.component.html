@@ -19,7 +19,13 @@
                   <i class="ni ni-single-02 mr-2"></i> Вход
                 </ng-template>
                   <ng-template ngbTabContent>
-                    <button class="btn btn-1 btn-success" [disabled]="loading" (click)="selectNCAStore()" type="button">Вход по ЭЦП</button>
+                    <div>
+                    <button class="btn btn-1 btn-success d-block mb-3" [disabled]="loading" type="button">Авторизация</button>
+                    <button class="btn btn-1 btn-success d-block mb-3" [disabled]="loading" type="button">Регистрация</button>
+                    <button class="btn btn-1 btn-success d-block " [disabled]="loading" (click)="selectNCAStore()" type="button">Вход по ЭЦП</button>
+                    
+                    </div>
+                    
                     <!-- <button *ngIf="roleUser === 'USER'" class="btn btn-1 btn-success" [disabled]="loading" (click)="goToUser()" type="button">Войти в кабинет</button> -->
                   </ng-template>
               </ngb-tab>

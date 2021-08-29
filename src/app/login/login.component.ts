@@ -56,6 +56,7 @@ export class LoginComponent implements OnInit {
       startConnection();
       EventBus.subscribe('connect', res => {
         if (res === 1) {
+          this.loading = true;
   
           selectSignType('LOGIN')
           this.authSubmit()
@@ -63,6 +64,7 @@ export class LoginComponent implements OnInit {
           this.toastr.error('Не запущен или не установлен NCALayer', 'Ошибка NCALayer')
   
           EventBus.unsubscribe('connect');
+          this.loading = false;
           // EventBus.unsubscribe('token');
         }
       });
@@ -72,13 +74,27 @@ export class LoginComponent implements OnInit {
     // get f() { return this.loginForm.controls; }
 
     authSubmit() {
-      EventBus.subscribe('auth_token', response => {
-        this.auth_xml = response
+      EventBus.subscribe('signConnectResult', result => {
+        if (result['message'] === 'action.canceled') {
+          this.loading = false;
+          this.toastr.error('Процесс подписи прекращен пользователем', 'Ошибка')
 
-        this.onSubmit()
+          selectSignType('')
+
+          EventBus.unsubscribe('connect');
+          EventBus.unsubscribe('signConnectResult')
+          endConnection()
+        } else {
+          EventBus.subscribe('auth_token', response => {
+            this.auth_xml = response
+    
+            this.onSubmit()
+          })
+
+          EventBus.unsubscribe('signConnectResult')
+          EventBus.unsubscribe('connect');
+        }
       })
-
-      EventBus.unsubscribe('connect');
     }
     
       withOutSpaces(event): boolean {
@@ -106,6 +122,7 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
+                    this.loading = false;
                     this.returnUrl = '/cabinet';
                     this.router.navigate([this.returnUrl]);
                     EventBus.unsubscribe('connect');
