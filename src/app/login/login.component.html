@@ -1,14 +1,11 @@
-﻿
-
-    
-<h1>KazToll</h1>
+﻿<h1><strong><em>K</em>azToll</strong></h1>
 
 <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-6">
         <h3 class="h4 text-success font-weight-bold mb-4">Оператор комфортных дорог</h3>
         <!-- Tabs with icons -->
-        <div class="mb-3">
+        <div class="mb-3 d-block main_text_login">
           <small class="font-weight-bold">Система взимания платы за проезд по
             платным автомобильным дорогам
             Республики Казахстан.</small>
@@ -18,12 +15,53 @@
                 <ng-template ngbTabTitle>
                   <i class="ni ni-single-02 mr-2"></i> Вход
                 </ng-template>
-                  <ng-template ngbTabContent>
-                    <div>
-                    <button class="btn btn-1 btn-success d-block mb-3" [disabled]="loading" type="button">Авторизация</button>
-                    <button class="btn btn-1 btn-success d-block mb-3" [disabled]="loading" type="button">Регистрация</button>
-                    <button class="btn btn-1 btn-success d-block " [disabled]="loading" (click)="selectNCAStore()" type="button">Вход по ЭЦП</button>
-                    
+                <ng-template ngbTabContent>
+                    <div [ngClass]="{ unvisible_tab: regItem }">
+                      <div class="d-flex flex-column w-100 align-items-center justify-content-center">    
+                        <button class="btn btn-1 btn-success d-block" [disabled]="loading" (click)="selectNCAStore()" type="button"><i class="ni ni-credit-card mr-2"></i> Вход по ЭЦП</button>
+                        <button class="btn btn-1 btn-success d-block mt-3" [disabled]="loading" (click)="changeReg()" type="button"><i class="ni ni-key-25 mr-2"></i>Зарегистрироваться</button>
+                      </div>
+                    </div>
+                    <div [ngClass]="{ unvisible_tab: !regItem }">
+                      <button (click)="changeReg()"  class="btn btn-1 btn-success d-block">Назад</button>
+                      <div class="input-group input-group-alternative mt-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+                        </div>
+                        <input [(ngModel)]="firstName" #ctrl="ngModel" class="form-control" placeholder="Ваше имя" type="text">
+                      </div>
+                      <div class="input-group input-group-alternative mt-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
+                        </div>
+                        <input [(ngModel)]="lastName" #ctrl="ngModel" class="form-control" placeholder="Ваша фамилия" type="text">
+                      </div>
+                      <div class="input-group input-group-alternative mt-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-single-copy-04"></i></span>
+                        </div>
+                        <input [(ngModel)]="bin" #ctrl="ngModel" class="form-control" placeholder="ИИН" type="text">
+                      </div>
+                      <div class="input-group input-group-alternative mt-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                        </div>
+                        <input [(ngModel)]="email" #ctrl="ngModel" class="form-control" placeholder="Электронная почта" type="email">
+                      </div>
+                      <div class="input-group input-group-alternative mt-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-ruler-pencil"></i></span>
+                        </div>
+                        <input [(ngModel)]="middleName" #ctrl="ngModel" class="form-control" placeholder="Сокращенное Ф.И.О" type="text">
+                      </div>
+                      <div class="input-group input-group-alternative mt-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-building"></i></span>
+                        </div>
+                        <input [(ngModel)]="company" #ctrl="ngModel" class="form-control" placeholder="Наименование компании" type="text">
+                      </div>
+
+                      <button (click)="selectNCAStoreReg()"  class="btn btn-1 btn-success d-block mt-3">Зарегистрироваться</button>
                     </div>
                     
                     <!-- <button *ngIf="roleUser === 'USER'" class="btn btn-1 btn-success" [disabled]="loading" (click)="goToUser()" type="button">Войти в кабинет</button> -->

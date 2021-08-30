@@ -267,5 +267,13 @@ a { cursor: pointer }
   margin: 10px;
 }
 
+.main_text_login {
+  text-align: center;
+}
+
+.unvisible_tab {
+  display: none;
+}
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';

@@ -1078,10 +1078,10 @@ function createCMSSignatureFromBase64(storageName, keyType, base64ToSign, flag, 
      getSubDN();
  }
  
- $(window).on('beforeunload', function(){
-     if (webSocket !== null) {
-         webSocket.close();
-     }
- });
+//  $(window).on('beforeunload', function(){
+//      if (webSocket !== null) {
+//          webSocket.close();
+//      }
+//  });
  
  

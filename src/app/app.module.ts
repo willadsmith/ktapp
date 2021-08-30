@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 // used to create fake backend
 // import { fakeBackendProvider } from './_helpers';
@@ -26,6 +27,7 @@ import { FoundComponent } from './founder/founder.component';
     imports: [
         BrowserModule,
         LayoutModule,
+        FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
         AppRoutingModule,

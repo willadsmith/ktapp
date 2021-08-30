@@ -42,6 +42,18 @@ export class AuthenticationService {
             }));
     }
 
+    register(params: object) {
+        return this.http.post<any>(`${environment.apiUrl}/auth/register`, { params })
+            .pipe(map(user => {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                localStorage.setItem('token', user['token']['accessToken']);
+                this.currentUserSubject.next(user);
+                return user;
+            }));
+    }
+
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
@@ -66,4 +78,5 @@ export class AuthenticationService {
     sign(url: string, params: object) {
         return this.http.post<any>(environment.apiUrl + url, { params }).pipe(map(sign => { return sign}))
     }
+
 }

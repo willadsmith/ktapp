@@ -38,7 +38,6 @@ export class BaseDashboardComponent implements OnInit {
   startProcessSign(storage: string, sign: string, id: string) {
     this.signTag = sign
     this.companyId = id
-    console.log(this.signTag)
     startConnection();
     EventBus.subscribe('connect', res => {
       if (res === 1) {
