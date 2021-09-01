@@ -42,8 +42,8 @@ export class AuthenticationService {
             }));
     }
 
-    register(params: object) {
-        return this.http.post<any>(`${environment.apiUrl}/auth/register`, { params })
+    register(firstName: string, lastName: string, idn: string, bin: string, email: string, middleName: string, company: string, signedXml: object) {
+        return this.http.post<any>(`${environment.apiUrl}/auth/register`, { firstName, lastName, idn, bin, email, middleName, company, signedXml })
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
 
@@ -76,7 +76,7 @@ export class AuthenticationService {
     }
 
     sign(url: string, params: object) {
-        return this.http.post<any>(environment.apiUrl + url, { params }).pipe(map(sign => { return sign}))
+        return this.http.post<any>(environment.apiUrl + url, params).pipe(map(sign => { return sign}))
     }
 
 }

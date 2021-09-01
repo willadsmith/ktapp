@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     bin: string;
     email: string;
     middleName: string;
-    company: {};
+    company: string;
     
 
     constructor(
@@ -63,6 +63,13 @@ export class LoginComponent implements OnInit {
 
     changeReg() {
       this.regItem = !this.regItem
+      this.firstName = ''
+      this.lastName = ''
+      this.idn = ''
+      this.bin = ''
+      this.email = ''
+      this.middleName = ''
+      this.company = ''
     }
 
     selectNCAStore() {
@@ -89,7 +96,7 @@ export class LoginComponent implements OnInit {
         if (res === 1) {
           this.loading = true;
   
-          selectSignType('LOGIN')
+          // selectSignType('LOGIN')
           this.regSubmit()
         } else {
           this.toastr.error('Не запущен или не установлен NCALayer', 'Ошибка NCALayer')
@@ -129,27 +136,31 @@ export class LoginComponent implements OnInit {
     }
 
     regSubmit() {
-      EventBus.subscribe('signConnectResult', result => {
-        if (result['message'] === 'action.canceled') {
-          this.loading = false;
-          this.toastr.error('Процесс подписи прекращен пользователем', 'Ошибка')
+      // EventBus.subscribe('signConnectResult', result => {
+      //   if (result['message'] === 'action.canceled') {
+      //     this.loading = false;
+      //     this.toastr.error('Процесс подписи прекращен пользователем', 'Ошибка')
 
-          selectSignType('')
+      //     // selectSignType('')
 
-          EventBus.unsubscribe('connect');
-          EventBus.unsubscribe('signConnectResult')
-          endConnection()
-        } else {
-          EventBus.subscribe('auth_token', response => {
-            this.reg_xml = response
+      //     EventBus.unsubscribe('connect');
+      //     EventBus.unsubscribe('signConnectResult')
+      //     endConnection()
+      //   } else {
+      //     EventBus.subscribe('auth_token', response => {
+      //       this.reg_xml = response
     
-            this.onRegSubmit()
-          })
+            
+      //     })
 
-          EventBus.unsubscribe('signConnectResult')
-          EventBus.unsubscribe('connect');
-        }
-      })
+      //     this.reg_xml = ''
+
+          this.signatureReg()
+
+      //     EventBus.unsubscribe('signConnectResult')
+      //     EventBus.unsubscribe('connect');
+      //   }
+      // })
     }
     
     withOutSpaces(event): boolean {
@@ -194,43 +205,111 @@ export class LoginComponent implements OnInit {
     }
 
     onRegSubmit() {
-      this.authenticationService.logout();
+      // this.authenticationService.logout();
 
-        const params = {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          idn: this.idn,
-          bin: this.bin,
-          email: this.email,
-          middleName: this.middleName,
-          company: this.company,
-          signedXml: {
-            params: this.reg_xml
+      //   const params = {
+      //     firstName: this.firstName,
+      //     lastName: this.lastName,
+      //     idn: this.idn,
+      //     bin: this.bin,
+      //     email: this.email,
+      //     middleName: this.middleName,
+      //     company: this.company,
+      //     signedXml: {
+      //       params: this.reg_xml
+      //     }
+      //   }
+
+      //   this.submitted = true;
+      //   this.version = '1.0'
+      //   this.method = 'XML.verify'
+
+      //   this.loading = true;
+      //   this.authenticationService.register(params)
+      //       .pipe(first())
+      //       .subscribe(
+      //           data => {
+      //               this.loading = false;
+      //               this.toastr.success(data, 'Готово')
+      //               EventBus.unsubscribe('connect');
+      //               EventBus.unsubscribe('auth_token');
+      //               endConnection()
+      //           },
+      //           error => {
+      //               this.error = error;
+      //               this.loading = false;
+      //               this.toastr.error(error, 'Ошибка')
+      //               EventBus.unsubscribe('connect');
+      //               EventBus.unsubscribe('auth_token');
+      //               endConnection()
+      //           });
+    }
+
+    signatureReg() {
+      this.signXmlCall();
+      EventBus.subscribe('signed', async (res) => {
+        console.log('signed start', res);
+        if (res['code'] === '500') {
+          if (res.message !==  'action.canceled') {
+              console.log(`Ошибка NCALayer: ${res.message}`, 'Error')
           }
+          EventBus.unsubscribe('signed');
+          EventBus.unsubscribe('connect');
+          EventBus.unsubscribe('token');
+          endConnection();
         }
+  
+        if (res['code'] === '200') {
+          if (res['responseObject'] !== undefined) {
+            const xml = res['responseObject'];
 
-        this.submitted = true;
-        this.version = '1.0'
-        this.method = 'XML.verify'
+  
+            this.authenticationService.logout();
 
-        this.loading = true;
-        this.authenticationService.register(params)
-            .pipe(first())
-            .subscribe(
-                data => {
-                    this.loading = false;
-                    this.toastr.success(data, 'Готово')
-                    EventBus.unsubscribe('connect');
-                    EventBus.unsubscribe('auth_token');
-                    endConnection()
-                },
-                error => {
-                    this.error = error;
-                    this.loading = false;
-                    this.toastr.error(error, 'Ошибка')
-                    EventBus.unsubscribe('connect');
-                    EventBus.unsubscribe('auth_token');
-                    endConnection()
-                });
+            const signedXml = {
+                params: {
+                  xml: xml
+                }
+            }
+
+            this.submitted = true;
+            this.version = '1.0'
+            this.method = 'XML.verify'
+
+            this.loading = true;
+            this.authenticationService.register(this.firstName, this.lastName, this.idn, this.bin, this.email, this.middleName, this.company, signedXml )
+                .pipe(first())
+                .subscribe(
+                    data => {
+                        this.loading = false;
+                        this.toastr.success(data, 'Готово')
+                        EventBus.unsubscribe('connect');
+                        EventBus.unsubscribe('auth_token');
+                        endConnection()
+                    },
+                    error => {
+                        this.error = error;
+                        this.loading = false;
+                        this.toastr.error(error, 'Ошибка')
+                        EventBus.unsubscribe('connect');
+                        EventBus.unsubscribe('auth_token');
+                        endConnection()
+                    });
+      
+                EventBus.unsubscribe('signed');
+                EventBus.unsubscribe('connect');
+                EventBus.unsubscribe('token');
+      
+                endConnection();
+              }
+            }
+          });
+    }
+  
+    signXmlCall() {
+      const xmlToSign = '<xml>' + this.reg_xml + '</xml>';
+      const selectedStorage = 'PKCS12';
+  
+      signXml(selectedStorage, 'SIGNATURE', xmlToSign, 'signXmlBack');
     }
 }
