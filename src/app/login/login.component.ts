@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
     email: string;
     middleName: string;
     company: string;
+    companyType: string;
     
 
     constructor(
@@ -277,7 +278,7 @@ export class LoginComponent implements OnInit {
             this.method = 'XML.verify'
 
             this.loading = true;
-            this.authenticationService.register(this.firstName, this.lastName, this.idn, this.bin, this.email, this.middleName, this.company, signedXml )
+            this.authenticationService.register(this.companyType, this.firstName, this.lastName, this.idn, this.bin, this.email, this.middleName, this.company, signedXml )
                 .pipe(first())
                 .subscribe(
                     data => {

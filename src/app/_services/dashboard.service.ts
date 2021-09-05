@@ -22,6 +22,10 @@ export class DashboardService {
         return this.http.get<Company>(environment.apiUrl + url).pipe(map(doc => {return doc}))
     }
 
+    docsCompanyChange(url: string, status: string) {
+        return this.http.post<Company>(environment.apiUrl + url, status).pipe(map(doc => {return doc}))
+    }
+
     sign(url: string, companyId: string, params: object) {
         return this.http.post<any>(environment.apiUrl + url, { companyId, params }).pipe(map(sign => { return sign}))
     }

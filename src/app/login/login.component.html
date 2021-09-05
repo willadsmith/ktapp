@@ -48,6 +48,20 @@
                         </div>
                         <input [(ngModel)]="bin" #ctrl="ngModel" class="form-control" placeholder="БИН Компании" >
                       </div>
+
+                      <div class="custom-control custom-radio mt-3 mb-2">
+                        <input [(ngModel)]="companyType" #ctrl="ngModel" name="custom-radio-2" class="custom-control-input" value="IE" id="customRadio5" type="radio">
+                        <label class="custom-control-label" for="customRadio5">Индивидуальный предприниматель</label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input [(ngModel)]="companyType" #ctrl="ngModel" name="custom-radio-2" class="custom-control-input" value="LLC" id="customRadio6"  type="radio">
+                        <label class="custom-control-label" for="customRadio6">Товарищество с ограниченной ответственностью</label>
+                      </div>
+                      <div class="custom-control custom-radio mt-2 mb-3">
+                        <input [(ngModel)]="companyType" #ctrl="ngModel" name="custom-radio-2" class="custom-control-input" value="JSC" id="customRadio7"  type="radio">
+                        <label class="custom-control-label" for="customRadio7">Акционерное общество</label>
+                      </div>
+      
                       <div class="input-group input-group-alternative mt-3">
                         <div class="input-group-prepend">
                           <span class="input-group-text"><i class="ni ni-email-83"></i></span>

@@ -35,6 +35,14 @@ export class BaseDashboardComponent implements OnInit {
     })
   }
 
+  changeFilterDocs(event) {
+    let status = event.target.value
+
+    this.dashboardService.docsCompanyChange('/company', status).subscribe(res => {
+      this.docsCompany = res.data
+    })
+  }
+
   startProcessSign(storage: string, sign: string, id: string) {
     this.signTag = sign
     this.companyId = id

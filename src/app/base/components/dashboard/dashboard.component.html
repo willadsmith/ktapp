@@ -9,6 +9,15 @@
           <div class="row align-items-center">
             <div class="col">
               <h3 class="mb-0">Список компаний</h3>
+              <form>
+                <select class="form-control" data-toggle="select" (change)="changeFilterDocs($event)" title="Фильтровать по статусу" data-live-search="true" data-live-search-placeholder="Фильтр">
+                    <option value="">Все</option>
+                    <option value="PENDING">Ожидает подписи</option>
+                    <option value="APPROVED">Требует подписи</option>
+                    <option value="SIGNED">Подписан</option>
+                    <option value="DECLINED">Отменен</option>
+                </select>
+            </form>
             </div>
           </div>
         </div>
