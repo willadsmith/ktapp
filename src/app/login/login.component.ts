@@ -291,7 +291,7 @@ export class LoginComponent implements OnInit {
                     error => {
                         this.error = error;
                         this.loading = false;
-                        this.toastr.error(error, 'Ошибка')
+                        this.toastr.error(error.error, 'Ошибка')
                         EventBus.unsubscribe('connect');
                         EventBus.unsubscribe('auth_token');
                         endConnection()

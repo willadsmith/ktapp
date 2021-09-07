@@ -42,14 +42,15 @@ export class AuthenticationService {
             }));
     }
 
-    register(CompanyType: string, firstName: string, lastName: string, idn: string, bin: string, email: string, middleName: string, company: string, signedXml: object) {
-        return this.http.post<any>(`${environment.apiUrl}/auth/register`, { CompanyType, firstName, lastName, idn, bin, email, middleName, company, signedXml })
+    register(companyType: string, firstName: string, lastName: string, idn: string, bin: string, email: string, middleName: string, company: string, signedXml: object) {
+        return this.http.post<any>(`${environment.apiUrl}/auth/register`, { companyType, firstName, lastName, idn, bin, email, middleName, company, signedXml })
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
 
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                localStorage.setItem('token', user['token']['accessToken']);
-                this.currentUserSubject.next(user);
+                // localStorage.setItem('currentUser', JSON.stringify(user));
+                // localStorage.setItem('token', user['token']['accessToken']);
+                // this.currentUserSubject.next(user);
+                console.log(user)
                 return user;
             }));
     }
