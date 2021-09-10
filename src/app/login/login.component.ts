@@ -125,6 +125,7 @@ export class LoginComponent implements OnInit {
           endConnection()
         } else {
           EventBus.subscribe('auth_token', response => {
+            console.log('auth_token', response)
             this.auth_xml = response
     
             this.onSubmit()
@@ -176,7 +177,7 @@ export class LoginComponent implements OnInit {
       this.authenticationService.logout();
 
         const params = {
-          xml: this.reg_xml
+          xml: this.auth_xml
         }
 
         this.submitted = true;

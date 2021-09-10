@@ -13,5 +13,6 @@ export class Company {
         createdAt: string;
         documents: object;
         iban: string;
-    }]
+        status: string;
+    }];
 }

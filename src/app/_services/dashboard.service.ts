@@ -23,7 +23,9 @@ export class DashboardService {
     }
 
     docsCompanyChange(url: string, status: string) {
-        return this.http.post<Company>(environment.apiUrl + url, status).pipe(map(doc => {return doc}))
+        let req_url = url
+        status === '' ? req_url : req_url = `${url}?status=${status}`
+        return this.http.get<Company>(environment.apiUrl + req_url).pipe(map(doc => {return doc }))
     }
 
     sign(url: string, companyId: string, params: object) {
