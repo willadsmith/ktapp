@@ -9,17 +9,22 @@ import {ToasterService} from 'angular2-toaster';
 })
 export class NavbarComponent implements OnInit {
   public userProfileName = '';
+  public getCurrentUser;
+  public userProfile;
+  public firstName;
+  public lastName;
 
   constructor(
               private toasterService: ToasterService,
               private router: Router) {
   }
 
-  // goToHistory() {
-  //   this.router.navigate(['/my_requests']);
-  // }
-
   ngOnInit() {
+    this.getCurrentUser = localStorage.getItem('currentUser')
+    this.userProfile = JSON.parse(this.getCurrentUser).user
+    this.firstName = this.userProfile.firstName
+    this.lastName = this.userProfile.lastName
+
     if (this.userProfileName.length > 11) {
       this.userProfileName = this.userProfileName.slice(0, 11) + '...';
     }

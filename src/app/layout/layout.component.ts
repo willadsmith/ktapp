@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Docs } from '../_models/docs';
+// import { Docs } from '../_models/docs';
+// import { User } from '../_models/user';
 import { BackendService } from '@app/_services/backend-service';
-import { ToasterConfig, ToasterService } from 'angular2-toaster';
+import { ToasterConfig } from 'angular2-toaster';
 import { AuthenticationService } from '../_services/authentication.service';
+// import { DashboardService } from '../_services/dashboard.service';
 import { ToastrService } from 'ngx-toastr';
 
 declare var signXml: any;
 declare var EventBus: any;
 declare var endConnection: any;
 declare var startConnection: any;
-declare var getActiveTokens: any;
-declare var selectSignType: any;
-declare var chooseNCAStorage: any;
+// declare var getActiveTokens: any;
+// declare var selectSignType: any;
+// declare var chooseNCAStorage: any;
 
 @Component({
   selector: 'app-layout',
@@ -23,7 +25,6 @@ export class LayoutComponent implements OnInit {
 
   public currentUrl: string;
   public isLogged = false;
-  // public modalRef: BsModalRef;
   public isMenuOpened = false;
   public docs;
   public signTag;
@@ -89,9 +90,13 @@ export class LayoutComponent implements OnInit {
         if (res['responseObject'] !== undefined) {
           const xml = res['responseObject'];
 
+          const params = {
+            xml: xml
+          }
+
           this.signStatus = true;
 
-          this.authenticationService.sign('/signature/document', {xml}).subscribe(response => {
+          this.authenticationService.sign('/signature/document', {params}).subscribe(response => {
             if (response.statusCode === 416) {
               this.toastr.error(response.message, 'Ошибка подписи')
             } else {

@@ -109,9 +109,6 @@ export class LoginComponent implements OnInit {
       });
     }
 
-    // convenience getter for easy access to form fields
-    // get f() { return this.loginForm.controls; }
-
     authSubmit() {
       EventBus.subscribe('signConnectResult', result => {
         if (result['message'] === 'action.canceled') {
@@ -138,31 +135,7 @@ export class LoginComponent implements OnInit {
     }
 
     regSubmit() {
-      // EventBus.subscribe('signConnectResult', result => {
-      //   if (result['message'] === 'action.canceled') {
-      //     this.loading = false;
-      //     this.toastr.error('Процесс подписи прекращен пользователем', 'Ошибка')
-
-      //     // selectSignType('')
-
-      //     EventBus.unsubscribe('connect');
-      //     EventBus.unsubscribe('signConnectResult')
-      //     endConnection()
-      //   } else {
-      //     EventBus.subscribe('auth_token', response => {
-      //       this.reg_xml = response
-    
-            
-      //     })
-
-      //     this.reg_xml = ''
-
-          this.signatureReg()
-
-      //     EventBus.unsubscribe('signConnectResult')
-      //     EventBus.unsubscribe('connect');
-      //   }
-      // })
+      this.signatureReg()
     }
     
     withOutSpaces(event): boolean {
@@ -189,6 +162,7 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
+                    console.log(data.user)
                     this.loading = false;
                     this.returnUrl = '/cabinet';
                     this.router.navigate([this.returnUrl]);
@@ -204,47 +178,6 @@ export class LoginComponent implements OnInit {
                     EventBus.unsubscribe('auth_token');
                     endConnection()
                 });
-    }
-
-    onRegSubmit() {
-      // this.authenticationService.logout();
-
-      //   const params = {
-      //     firstName: this.firstName,
-      //     lastName: this.lastName,
-      //     idn: this.idn,
-      //     bin: this.bin,
-      //     email: this.email,
-      //     middleName: this.middleName,
-      //     company: this.company,
-      //     signedXml: {
-      //       params: this.reg_xml
-      //     }
-      //   }
-
-      //   this.submitted = true;
-      //   this.version = '1.0'
-      //   this.method = 'XML.verify'
-
-      //   this.loading = true;
-      //   this.authenticationService.register(params)
-      //       .pipe(first())
-      //       .subscribe(
-      //           data => {
-      //               this.loading = false;
-      //               this.toastr.success(data, 'Готово')
-      //               EventBus.unsubscribe('connect');
-      //               EventBus.unsubscribe('auth_token');
-      //               endConnection()
-      //           },
-      //           error => {
-      //               this.error = error;
-      //               this.loading = false;
-      //               this.toastr.error(error, 'Ошибка')
-      //               EventBus.unsubscribe('connect');
-      //               EventBus.unsubscribe('auth_token');
-      //               endConnection()
-      //           });
     }
 
     signatureReg() {
@@ -284,7 +217,8 @@ export class LoginComponent implements OnInit {
                 .subscribe(
                     data => {
                         this.loading = false;
-                        this.toastr.success(data, 'Готово')
+                        this.toastr.success('Пользователь зарегистрирован', 'Готово')
+                        this.changeReg()
                         EventBus.unsubscribe('connect');
                         EventBus.unsubscribe('auth_token');
                         endConnection()
