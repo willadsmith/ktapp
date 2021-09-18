@@ -46,6 +46,10 @@ export class AuthenticationService {
         return this.http.post<any>(`${environment.apiUrl}/auth/register`, { companyType, firstName, lastName, idn, bin, email, middleName, company, signedXml })
             .pipe(map(user => {
                 console.log(user)
+
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                localStorage.setItem('token', user['token']['accessToken']);
+                this.currentUserSubject.next(user);
                 return user;
             }));
     }

@@ -162,7 +162,6 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    console.log(data.user)
                     this.loading = false;
                     this.returnUrl = '/cabinet';
                     this.router.navigate([this.returnUrl]);
@@ -219,6 +218,8 @@ export class LoginComponent implements OnInit {
                         this.loading = false;
                         this.toastr.success('Пользователь зарегистрирован', 'Готово')
                         this.changeReg()
+                        this.returnUrl = '/cabinet';
+                        this.router.navigate([this.returnUrl]);
                         EventBus.unsubscribe('connect');
                         EventBus.unsubscribe('auth_token');
                         endConnection()

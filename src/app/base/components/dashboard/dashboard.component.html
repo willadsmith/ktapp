@@ -12,9 +12,9 @@
               <form>
                 <select class="form-control" data-toggle="select" (change)="changeFilterDocs($event)" title="Фильтровать по статусу" data-live-search="true" data-live-search-placeholder="Фильтр">
                     <option value="">Все</option>
-                    <option value="PENDING">Ожидает подписи</option>
-                    <option value="APPROVED">Требует подписи</option>
-                    <option value="SIGNED">Подписан</option>
+                    <option value="APPROVED">Документ подписан</option>
+                    <option value="PENDING">Требует подписи клиента</option>
+                    <option value="SIGNED">Требует подписи оператора</option>
                     <option value="DECLINE">Отменен</option>
                 </select>
             </form>
@@ -26,6 +26,7 @@
             <thead class="thead-light">
               <tr>
                 <th scope="col">Наименование компании</th>
+                <th scope="col">БИН компании</th>
                 <th scope="col">Документ</th>
                 <th scope="col">Статус</th>
                 <th scope="col">Действия</th>
@@ -33,19 +34,24 @@
             </thead>
             <tbody *ngFor="let docComp of docsCompany; let i = index" >
               <tr>
-                <th>
-                  {{docComp.name}}
-                </th>
+                <td >
+                  <span>{{docComp.name}}</span>
+                </td>
+                <td>
+                  <span>{{docComp.bin}}</span>
+                </td>
                 <td>
                   <strong>{{docComp.documents[i].name}}</strong>
                 </td>
                 <td>
-                  <span *ngIf="docComp.documents[i].status === 'PENDING'" class="text-warning">Требует подписи</span>
+                  <span *ngIf="docComp.documents[i].status === 'PENDING'" class="text-warning">Требует подписи клиента</span>
+                  <span *ngIf="docComp.documents[i].status === 'SIGNED'" class="text-warning">Требует подписи оператора</span>
                   <span *ngIf="docComp.documents[i].status === 'DECLINE'" class="text-danger">Отклонен</span>
                   <span *ngIf="docComp.documents[i].status === 'APPROVED'" class="text-success">Подписан</span>
                 </td>
                 <td>
-                  <button *ngIf="docComp.documents[i].status === 'PENDING'" type="button" class="btn btn-success" (click)="startProcessSign('PKSC12', docComp.documents[i].body, docComp.id)">Подписать</button>
+                  <span *ngIf="docComp.documents[i].status !== 'SIGNED'"> - </span>
+                  <button *ngIf="docComp.documents[i].status === 'SIGNED'" type="button" class="btn btn-success" (click)="startProcessSign('PKSC12', docComp.documents[i].body, docComp.id)">Подписать</button>
                 </td>
               </tr>
             </tbody>
