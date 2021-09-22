@@ -101,6 +101,12 @@ export class LayoutComponent implements OnInit {
               this.toastr.error(response.message, 'Ошибка подписи')
             } else {
               this.toastr.success('Документ успешно подписан', 'Подписано')
+
+              this.authenticationService.doc('/documents').subscribe(
+                response => {
+                  this.docs = response
+                }
+              )
             }
           })
 

@@ -9,8 +9,7 @@ function startConnection() {
     setReadyState();
     wsResponseStatus = webSocket.readyState;
     EventBus.publish('connect', wsResponseStatus);
-    console.log('Connection open');
-    console.log(webSocket);
+    console.log('Connection open')
   };
 
   webSocket.onmessage = function (event) {
@@ -282,7 +281,7 @@ function createCMSSignatureFromBase64(storageName, keyType, base64ToSign, flag, 
      };
      if (callbackM) callback = callbackM;
      // setMissedHeartbeatsLimitToMax();
-     console.log(methodVariable)
+     // console.log(methodVariable)
      webSocket.send(JSON.stringify(methodVariable));
  }
  
@@ -619,10 +618,10 @@ function createCMSSignatureFromBase64(storageName, keyType, base64ToSign, flag, 
      keyType = "AUTHENTICATION"// document.getElementById('keyType').value;
      var args = [];
  
-     console.info('signXmlNewCall', data, storageAlias)
+    //  console.info('signXmlNewCall', data, storageAlias)
      if (data && storageAlias) {
          args = [storageAlias, keyType, data, "", ""];
-         console.info('signXmlNewCall args', args)
+        //  console.info('signXmlNewCall args', args)
          getDataNew('signXml', args, callbackM);
      } else {
          console.info('openNcaLayerError')
@@ -658,7 +657,6 @@ function createCMSSignatureFromBase64(storageName, keyType, base64ToSign, flag, 
          var listOfTokens = result['responseObject'];
          kTokensNclayer = false;
          idCardNclayer = false;
-         console.log("active tokens " + listOfTokens);
          for (i = 0; i < listOfTokens.length; i++) {
              if (listOfTokens[i] == 'AKKaztokenStore') {
                  kTokensNclayer = true;

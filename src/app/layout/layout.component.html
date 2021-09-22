@@ -31,7 +31,8 @@
                     <span class="text-warning" *ngIf="doc.status === 'PENDING'">Статус документа: Требует подписания</span>
                     <span class="text-danger" *ngIf="doc.status === 'DECLINE'">Статус документа: Отклонен</span>
                     <span class="text-success" *ngIf="doc.status === 'SIGNED'">Статус документа: Подписан</span>
-                    <hr>
+                    <span class="text-success" *ngIf="doc.status === 'APPROVED'">Статус документа: Подписан оператором</span>
+                    <hr *ngIf="doc.status === 'PENDING'">
                     <button *ngIf="doc.status === 'PENDING'" class="btn btn-1 btn-success" type="button" (click)="startProcessSign('PKSC12', 'html')"> Подписать документ </button>
                     </div>
                   </div>

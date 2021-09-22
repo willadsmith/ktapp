@@ -82,6 +82,9 @@ export class BaseDashboardComponent implements OnInit {
           this.toastr.success('Документ успешно подписан', 'Подписано')
 
           this.dashboardService.sign('/signature/operator', this.companyId, {xml}).subscribe(response => console.log(response))
+          this.dashboardService.docsCompanyChange('/company', status).subscribe(res => {
+            this.docsCompany = res.data
+          })
 
           EventBus.unsubscribe('signed');
           EventBus.unsubscribe('connect');
