@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
         if (res === 1) {
           this.loading = true;
   
-          // selectSignType('LOGIN')
+          selectSignType('LOGIN')
           this.regSubmit()
         } else {
           this.toastr.error('Не запущен или не установлен NCALayer', 'Ошибка NCALayer')
@@ -135,7 +135,30 @@ export class LoginComponent implements OnInit {
     }
 
     regSubmit() {
-      this.signatureReg()
+      // this.signatureReg()
+
+      EventBus.subscribe('signConnectResult', result => {
+        if (result['message'] === 'action.canceled') {
+          this.loading = false;
+          this.toastr.error('Процесс подписи прекращен пользователем', 'Ошибка')
+
+          selectSignType('')
+
+          EventBus.unsubscribe('connect');
+          EventBus.unsubscribe('signConnectResult')
+          endConnection()
+        } else {
+          EventBus.subscribe('auth_token', response => {
+            console.log('auth_token', response)
+            this.reg_xml = response;
+    
+            this.signatureReg()
+          })
+
+          EventBus.unsubscribe('signConnectResult')
+          EventBus.unsubscribe('connect');
+        }
+      })
     }
     
     withOutSpaces(event): boolean {
@@ -180,67 +203,47 @@ export class LoginComponent implements OnInit {
     }
 
     signatureReg() {
-      this.signXmlCall();
-      EventBus.subscribe('signed', async (res) => {
-        console.log('signed start', res);
-        if (res['code'] === '500') {
-          if (res.message !==  'action.canceled') {
-              console.log(`Ошибка NCALayer: ${res.message}`, 'Error')
+        this.authenticationService.logout();
+
+        const signedXml = {
+          params: {
+            xml: this.reg_xml
           }
-          EventBus.unsubscribe('signed');
-          EventBus.unsubscribe('connect');
-          EventBus.unsubscribe('token');
-          endConnection();
         }
-  
-        if (res['code'] === '200') {
-          if (res['responseObject'] !== undefined) {
-            const xml = res['responseObject'];
 
-  
-            this.authenticationService.logout();
+        this.submitted = true;
+        this.version = '1.0'
+        this.method = 'XML.verify'
 
-            const signedXml = {
-                params: {
-                  xml: xml
-                }
-            }
+        this.loading = true;
+        this.authenticationService.register(this.companyType, this.firstName, this.lastName, this.idn, this.bin, this.email, this.middleName, this.company, signedXml )
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.loading = false;
+                    this.toastr.success('Пользователь зарегистрирован', 'Готово')
+                    this.changeReg()
+                    this.returnUrl = '/cabinet';
+                    this.router.navigate([this.returnUrl]);
+                    EventBus.unsubscribe('connect');
+                    EventBus.unsubscribe('auth_token');
+                    endConnection()
+                },
+                error => {
+                    this.error = error;
+                    this.loading = false;
+                    this.toastr.error(error.error, 'Ошибка')
+                    EventBus.unsubscribe('connect');
+                    EventBus.unsubscribe('auth_token');
+                    endConnection()
+                });
 
-            this.submitted = true;
-            this.version = '1.0'
-            this.method = 'XML.verify'
+            EventBus.unsubscribe('signed');
+            EventBus.unsubscribe('connect');
+            EventBus.unsubscribe('token');
 
-            this.loading = true;
-            this.authenticationService.register(this.companyType, this.firstName, this.lastName, this.idn, this.bin, this.email, this.middleName, this.company, signedXml )
-                .pipe(first())
-                .subscribe(
-                    data => {
-                        this.loading = false;
-                        this.toastr.success('Пользователь зарегистрирован', 'Готово')
-                        this.changeReg()
-                        this.returnUrl = '/cabinet';
-                        this.router.navigate([this.returnUrl]);
-                        EventBus.unsubscribe('connect');
-                        EventBus.unsubscribe('auth_token');
-                        endConnection()
-                    },
-                    error => {
-                        this.error = error;
-                        this.loading = false;
-                        this.toastr.error(error.error, 'Ошибка')
-                        EventBus.unsubscribe('connect');
-                        EventBus.unsubscribe('auth_token');
-                        endConnection()
-                    });
-      
-                EventBus.unsubscribe('signed');
-                EventBus.unsubscribe('connect');
-                EventBus.unsubscribe('token');
-      
-                endConnection();
-              }
-            }
-          });
+            endConnection();
+
     }
   
     signXmlCall() {
